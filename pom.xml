@@ -8,11 +8,11 @@
         <version>2.2.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.smec.mpaas</groupId>
+    <groupId>cn.kerrysmec.mpaas</groupId>
     <artifactId>unicorn</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>unicorn-spring-boot-starter</name>
-    <description>三菱独角兽Starter</description>
+    <name>unicorn</name>
+    <description>独角兽Starter</description>
 
     <properties>
         <java.version>1.8</java.version>
