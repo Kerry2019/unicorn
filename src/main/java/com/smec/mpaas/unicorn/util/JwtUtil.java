@@ -15,13 +15,7 @@ import org.springframework.stereotype.Component;
 import java.net.URL;
 import java.util.Map;
 
-/**
- * @Copyright: Shanghai Definesys Company.All rights reserved.
- * @Description:
- * @author: kerry.wu
- * @since: 2020/3/7 23:07
- * @history: 1.2020/3/7 created by kerry.wu
- */
+
 @Component
 public class JwtUtil {
     private static final String JWT_ENDPOINT="https://adfs.smec-cn.com/adfs/discovery/keys";

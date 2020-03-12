@@ -23,13 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-/**
- * @Copyright: Shanghai Definesys Company.All rights reserved.
- * @Description:
- * @author: kerry.wu
- * @since: 2020/3/6 22:54
- * @history: 1.2020/3/6 created by kerry.wu
- */
+
 @Component
 public class SecurityFilter implements Filter {
     @Autowired

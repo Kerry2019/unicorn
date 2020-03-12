@@ -2,13 +2,7 @@ package com.smec.mpaas.unicorn.pojo;
 
 import java.util.Optional;
 
-/**
- * @Copyright: Shanghai Definesys Company.All rights reserved.
- * @Description:
- * @author: kerry.wu
- * @since: 2020/3/6 22:50
- * @history: 1.2020/3/6 created by kerry.wu
- */
+
 public class UserProfileThread {
     private static ThreadLocal<UserProfile> USER_PROFILE_TL =new ThreadLocal<>();
 

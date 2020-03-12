@@ -4,13 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Optional;
 
-/**
- * @Copyright: Shanghai Definesys Company.All rights reserved.
- * @Description:
- * @author: kerry.wu
- * @since: 2020/3/6 22:53
- * @history: 1.2020/3/6 created by kerry.wu
- */
+
 @ConfigurationProperties(prefix = "mpaas.unicorn.security")
 public class SecurityProperty {
     public enum MODE_ENUM {

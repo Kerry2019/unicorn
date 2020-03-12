@@ -2,13 +2,7 @@ package com.smec.mpaas.unicorn.pojo;
 
 import java.io.Serializable;
 
-/**
- * @Copyright: Shanghai Definesys Company.All rights reserved.
- * @Description:
- * @author: kerry.wu
- * @since: 2020/3/6 22:37
- * @history: 1.2020/3/6 created by kerry.wu
- */
+
 public class Response implements Serializable{
     private static final long serialVersionUID = 1L;
 

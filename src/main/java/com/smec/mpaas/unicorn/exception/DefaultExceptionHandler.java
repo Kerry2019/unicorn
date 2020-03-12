@@ -5,13 +5,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-/**
- * @Copyright: Shanghai Definesys Company.All rights reserved.
- * @Description:
- * @author: kerry.wu
- * @since: 2020/3/6 23:00
- * @history: 1.2020/3/6 created by kerry.wu
- */
+
 @ControllerAdvice
 public class DefaultExceptionHandler {
 
