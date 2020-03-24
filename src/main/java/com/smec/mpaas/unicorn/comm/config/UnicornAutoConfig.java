@@ -1,16 +1,14 @@
-package com.smec.mpaas.unicorn.config;
+package com.smec.mpaas.unicorn.comm.config;
 
-import com.smec.mpaas.unicorn.property.SecurityProperty;
+import com.smec.mpaas.unicorn.comm.property.SecurityProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.Resource;
-
 
 @Configuration
 @EnableConfigurationProperties({ SecurityProperty.class})
-@ComponentScan(basePackages = {"com.smec.mpaas.unicorn"})
+@ComponentScan(basePackages = {"com.smec.mpaas.unicorn.comm"})
 public class UnicornAutoConfig {
 
 

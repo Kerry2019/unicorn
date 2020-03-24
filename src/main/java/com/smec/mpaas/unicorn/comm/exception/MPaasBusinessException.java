@@ -1,4 +1,4 @@
-package com.smec.mpaas.unicorn.exception;
+package com.smec.mpaas.unicorn.comm.exception;
 
 
 public class MPaasBusinessException extends RuntimeException {

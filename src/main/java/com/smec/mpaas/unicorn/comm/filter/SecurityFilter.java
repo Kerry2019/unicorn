@@ -1,13 +1,13 @@
-package com.smec.mpaas.unicorn.filter;
+package com.smec.mpaas.unicorn.comm.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.smec.mpaas.unicorn.adapter.MPaasSSOAuthentication;
-import com.smec.mpaas.unicorn.pojo.Response;
-import com.smec.mpaas.unicorn.pojo.UserProfile;
-import com.smec.mpaas.unicorn.pojo.UserProfileThread;
-import com.smec.mpaas.unicorn.property.SecurityProperty;
+import com.smec.mpaas.unicorn.comm.adapter.MPaasSSOAuthentication;
+import com.smec.mpaas.unicorn.comm.pojo.Response;
+import com.smec.mpaas.unicorn.comm.pojo.UserProfile;
+import com.smec.mpaas.unicorn.comm.pojo.UserProfileThread;
+import com.smec.mpaas.unicorn.comm.property.SecurityProperty;
 
-import com.smec.mpaas.unicorn.util.JwtUtil;
+import com.smec.mpaas.unicorn.comm.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -61,10 +61,10 @@ public class SecurityFilter implements Filter {
         try {
             SecurityProperty.MODE_ENUM mode = Optional.ofNullable(securityProperty.getMode())
                     .map(SecurityProperty.MODE_ENUM::valueOf)
-                    .orElse(SecurityProperty.MODE_ENUM.oam);
+                    .orElse(SecurityProperty.MODE_ENUM.header);
             switch (mode) {
-                case oam:
-                    userProfile = oamHandle(httpServletRequest);
+                case header:
+                    userProfile = headerHandle(httpServletRequest);
                     break;
                 case adfs:
                     userProfile = adfseHandle(httpServletRequest);
@@ -121,14 +121,14 @@ public class SecurityFilter implements Filter {
     }
 
     /**
-     * mode= oam，处理方式
+     * mode= header，处理方式
      *
      * @param httpServletRequest
      * @return
      */
-    private UserProfile oamHandle(HttpServletRequest httpServletRequest) {
+    private UserProfile headerHandle(HttpServletRequest httpServletRequest) {
         UserProfile userProfile = null;
-        String uid = httpServletRequest.getHeader(securityProperty.headName());
+        String uid = httpServletRequest.getHeader(securityProperty.getHeaderName());
         if (uid == null) {
             userProfile = UserProfile.ANONYMOUS_OBJ;
         } else {
@@ -146,7 +146,7 @@ public class SecurityFilter implements Filter {
      */
     private UserProfile adfseHandle(HttpServletRequest httpServletRequest) throws Exception {
         UserProfile userProfile = null;
-        String token = httpServletRequest.getHeader(securityProperty.headName());
+        String token = httpServletRequest.getHeader(securityProperty.getHeaderName());
         if (token == null) {
             userProfile = UserProfile.ANONYMOUS_OBJ;
         } else {

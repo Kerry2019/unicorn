@@ -1,4 +1,4 @@
-package com.smec.mpaas.unicorn.util;
+package com.smec.mpaas.unicorn.comm.util;
 
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -9,7 +9,6 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
-import com.smec.mpaas.unicorn.exception.MPaasBusinessException;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;

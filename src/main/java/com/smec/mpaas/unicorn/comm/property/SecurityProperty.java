@@ -1,46 +1,39 @@
-package com.smec.mpaas.unicorn.property;
+package com.smec.mpaas.unicorn.comm.property;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.Pattern;
 import java.util.Optional;
 
 
 @ConfigurationProperties(prefix = "mpaas.unicorn.security")
+@Validated
 public class SecurityProperty {
     public enum MODE_ENUM {
-        oam,
+        header,
         adfs,
         custom
     }
 
-    public static String HEADER_NAME_UID = "uid";
-
     /**
-     * 是否开启 安全限制
+     * 是否开启接口安全
      */
-    private boolean open;
+    private boolean open=false;
     /**
      * 开放登录权限的路由（多个用逗号隔开，可写正则表达式）
      * 宽松规则绑定，可以绑定配置文件中的 public_route、public-route、publicRoute、publicroute、PUBLIC_ROUTE
      */
     private String publicRoute;
     /**
-     * oam/adfs/custom
+     * header/adfs/custom
      */
-    private String mode;
+    @Pattern(regexp = "^header$|^adfs$|^custom$",message = "请在三者中选择一个值：header、adfs、custom")
+    private String mode=MODE_ENUM.header.name();
     /**
      * header中参数命名
      */
-    private String headerName;
-
-    /**
-     * 如果headerName有值，则返回，否则默认返回 uid
-     *
-     * @return
-     */
-    public String headName() {
-        return Optional.ofNullable(headerName).orElse(HEADER_NAME_UID);
-    }
+    private String headerName="uid";
 
 
     public boolean isOpen() {

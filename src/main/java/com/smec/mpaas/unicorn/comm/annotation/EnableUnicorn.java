@@ -1,6 +1,6 @@
-package com.smec.mpaas.unicorn.annotaion;
+package com.smec.mpaas.unicorn.comm.annotation;
 
-import com.smec.mpaas.unicorn.config.UnicornAutoConfig;
+import com.smec.mpaas.unicorn.comm.config.UnicornAutoConfig;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -11,5 +11,5 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @Import({UnicornAutoConfig.class})
-public @interface EnableUnicornConfiguration {
+public @interface EnableUnicorn {
 }

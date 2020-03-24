@@ -1,7 +1,7 @@
-package com.smec.mpaas.unicorn.adapter;
+package com.smec.mpaas.unicorn.comm.adapter;
 
-import com.smec.mpaas.unicorn.exception.MPaasBusinessException;
-import com.smec.mpaas.unicorn.pojo.UserProfile;
+import com.smec.mpaas.unicorn.comm.exception.MPaasBusinessException;
+import com.smec.mpaas.unicorn.comm.pojo.UserProfile;
 
 import java.util.Map;
 

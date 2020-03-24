@@ -1,4 +1,4 @@
-package com.smec.mpaas.unicorn.pojo;
+package com.smec.mpaas.unicorn.comm.pojo;
 
 import java.util.Optional;
 

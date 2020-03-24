@@ -1,6 +1,6 @@
-package com.smec.mpaas.unicorn.exception;
+package com.smec.mpaas.unicorn.comm.exception;
 
-import com.smec.mpaas.unicorn.pojo.Response;
+import com.smec.mpaas.unicorn.comm.pojo.Response;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
