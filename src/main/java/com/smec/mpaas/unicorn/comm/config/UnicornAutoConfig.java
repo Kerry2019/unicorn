@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties({ SecurityProperty.class})
-@ComponentScan(basePackages = {"com.smec.mpaas.unicorn.comm"})
+@ComponentScan(basePackages = {"com.smec.mpaas.unicorn"})
 public class UnicornAutoConfig {
 
 

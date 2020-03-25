@@ -2,6 +2,7 @@ package com.smec.mpaas.unicorn.comm.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.smec.mpaas.unicorn.comm.adapter.MPaasSSOAuthentication;
+import com.smec.mpaas.unicorn.comm.pojo.ErrorResponse;
 import com.smec.mpaas.unicorn.comm.pojo.Response;
 import com.smec.mpaas.unicorn.comm.pojo.UserProfile;
 import com.smec.mpaas.unicorn.comm.pojo.UserProfileThread;
@@ -17,10 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Pattern;
 
 
@@ -33,6 +31,16 @@ public class SecurityFilter implements Filter {
     @Autowired
     private JwtUtil jwtUtil;
 
+    /**内置 ，放行的路由
+     * 无需加载上下文环境
+     */
+    private List<String> originPublicRouteList=Arrays.asList(
+            "/druid/*",
+            "/swagger-ui.html/*",
+            "/swagger-resources/*",
+            "/webjars/*",
+            "/v2/api-docs/*"
+    );
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -57,14 +65,21 @@ public class SecurityFilter implements Filter {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
+        String uri = httpServletRequest.getRequestURI();
+        //内置开放路由，直接放行，并且无需初始化上下文
+        if(isOriginPublicRoute(uri)){
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
+
         //针对不同mode，分别获取UserProfile
         try {
             SecurityProperty.MODE_ENUM mode = Optional.ofNullable(securityProperty.getMode())
                     .map(SecurityProperty.MODE_ENUM::valueOf)
-                    .orElse(SecurityProperty.MODE_ENUM.header);
+                    .orElse(SecurityProperty.MODE_ENUM.simple);
             switch (mode) {
-                case header:
-                    userProfile = headerHandle(httpServletRequest);
+                case simple:
+                    userProfile = simpleHandle(httpServletRequest);
                     break;
                 case adfs:
                     userProfile = adfseHandle(httpServletRequest);
@@ -80,7 +95,6 @@ public class SecurityFilter implements Filter {
 
         //安全校验
         if (securityProperty.isOpen() && userProfile.isAnonymous()) {
-            String uri = httpServletRequest.getRequestURI();
             boolean pub = false;
             if (securityProperty.getPublicRoute() != null) {
                 for (String pr : securityProperty.getPublicRoute().split(",")) {
@@ -113,7 +127,7 @@ public class SecurityFilter implements Filter {
     private void unAuthorized(ServletResponse servletResponse) {
         HttpServletResponse res = (HttpServletResponse) servletResponse;
         try {
-            res.getOutputStream().write(JSON.toJSONString(Response.fail("Unauthorized")).getBytes());
+            res.getOutputStream().write(JSON.toJSONString(ErrorResponse.error("Unauthorized")).getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -121,12 +135,12 @@ public class SecurityFilter implements Filter {
     }
 
     /**
-     * mode= header，处理方式
+     * mode= simple，处理方式
      *
      * @param httpServletRequest
      * @return
      */
-    private UserProfile headerHandle(HttpServletRequest httpServletRequest) {
+    private UserProfile simpleHandle(HttpServletRequest httpServletRequest) {
         UserProfile userProfile = null;
         String uid = httpServletRequest.getHeader(securityProperty.getHeaderName());
         if (uid == null) {
@@ -188,6 +202,24 @@ public class SecurityFilter implements Filter {
             userProfile = UserProfile.ANONYMOUS_OBJ;
         }
         return userProfile;
+    }
+
+
+    /**
+     * 是否属于 内置开放路由
+     * @param uri
+     * @return
+     */
+    private boolean isOriginPublicRoute(String uri){
+        if(!securityProperty.isOpen()){
+            return true;
+        }
+        for(String route:originPublicRouteList){
+            if (Pattern.compile(route).matcher(uri).find()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

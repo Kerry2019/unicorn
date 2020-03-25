@@ -11,7 +11,7 @@ import java.util.Optional;
 @Validated
 public class SecurityProperty {
     public enum MODE_ENUM {
-        header,
+        simple,
         adfs,
         custom
     }
@@ -26,10 +26,10 @@ public class SecurityProperty {
      */
     private String publicRoute;
     /**
-     * header/adfs/custom
+     * simple/adfs/custom
      */
-    @Pattern(regexp = "^header$|^adfs$|^custom$",message = "请在三者中选择一个值：header、adfs、custom")
-    private String mode=MODE_ENUM.header.name();
+    @Pattern(regexp = "^simple$|^adfs$|^custom$",message = "请在三者中选择一个值：simple、adfs、custom")
+    private String mode=MODE_ENUM.simple.name();
     /**
      * header中参数命名
      */

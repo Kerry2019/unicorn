@@ -5,6 +5,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "mpaas.unicorn.swagger")
 public class SwaggerProperty {
     /**
+     * 开启swagger
+     */
+    private boolean enable=false;
+    /**
      * 文档标题
      */
     private String title="Swagger接口文档";
@@ -16,6 +20,14 @@ public class SwaggerProperty {
      * 文档版本
      */
     private String version="v1.0";
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
 
     public String getTitle() {
         return title;
