@@ -26,7 +26,7 @@ public class SecurityProperty {
      */
     private String publicRoute;
     /**
-     * simple/adfs/custom
+     * simple/jwks/custom
      */
     @Pattern(regexp = "^simple$|^adfs$|^custom$",message = "请在三者中选择一个值：simple、adfs、custom")
     private String mode=MODE_ENUM.simple.name();
@@ -34,6 +34,10 @@ public class SecurityProperty {
      * header中参数命名
      */
     private String headerName="uid";
+    /**
+     * jwks,公钥地址
+     */
+    private String jwksUri;
 
 
     public boolean isOpen() {
@@ -66,5 +70,13 @@ public class SecurityProperty {
 
     public void setHeaderName(String headerName) {
         this.headerName = headerName;
+    }
+
+    public String getJwksUri() {
+        return jwksUri;
+    }
+
+    public void setJwksUri(String jwksUri) {
+        this.jwksUri = jwksUri;
     }
 }

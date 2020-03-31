@@ -9,6 +9,8 @@ import com.nimbusds.jose.proc.SecurityContext;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.proc.ConfigurableJWTProcessor;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
+import com.smec.mpaas.unicorn.comm.property.SecurityProperty;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -17,7 +19,8 @@ import java.util.Map;
 
 @Component
 public class JwtUtil {
-    private static final String JWT_ENDPOINT="https://adfs.smec-cn.com/adfs/discovery/keys";
+    @Autowired
+    private SecurityProperty securityProperty;
 
     /**
      * 验证并解析 jwt access_token
@@ -29,7 +32,7 @@ public class JwtUtil {
     public  Map<String, Object> parseAccessToken(String accessToken) throws Exception {
         JWTClaimsSet claimsSet = null;
         ConfigurableJWTProcessor jwtProcessor = new DefaultJWTProcessor();
-        JWKSource keySource= new RemoteJWKSet(new URL(JWT_ENDPOINT));
+        JWKSource keySource= new RemoteJWKSet(new URL(securityProperty.getJwksUri()));
         JWSAlgorithm expectedJWSAlg = JWSAlgorithm.RS256;
         JWSKeySelector keySelector = new JWSVerificationKeySelector(expectedJWSAlg, keySource);
         if (keySelector != null) {

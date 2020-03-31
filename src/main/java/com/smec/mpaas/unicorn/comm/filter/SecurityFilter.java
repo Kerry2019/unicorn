@@ -1,9 +1,9 @@
 package com.smec.mpaas.unicorn.comm.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.smec.mpaas.unicorn.comm.adapter.JWKSEnhanceUserProfile;
 import com.smec.mpaas.unicorn.comm.adapter.MPaasSSOAuthentication;
-import com.smec.mpaas.unicorn.comm.pojo.ErrorResponse;
-import com.smec.mpaas.unicorn.comm.pojo.Response;
+import com.smec.mpaas.unicorn.comm.pojo.RErrorResponse;
 import com.smec.mpaas.unicorn.comm.pojo.UserProfile;
 import com.smec.mpaas.unicorn.comm.pojo.UserProfileThread;
 import com.smec.mpaas.unicorn.comm.property.SecurityProperty;
@@ -24,10 +24,13 @@ import java.util.regex.Pattern;
 
 @Component
 public class SecurityFilter implements Filter {
+    @Autowired(required = false)
+    private MPaasSSOAuthentication paasSSOAuthentication;
+    @Autowired(required = false)
+    private JWKSEnhanceUserProfile jwksEnhanceUserProfile;
+
     @Autowired
     private SecurityProperty securityProperty;
-    @Autowired(required = false)
-    private MPaasSSOAuthentication ssoAuthentication;
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -127,7 +130,7 @@ public class SecurityFilter implements Filter {
     private void unAuthorized(ServletResponse servletResponse) {
         HttpServletResponse res = (HttpServletResponse) servletResponse;
         try {
-            res.getOutputStream().write(JSON.toJSONString(ErrorResponse.error("Unauthorized")).getBytes());
+            res.getOutputStream().write(JSON.toJSONString(RErrorResponse.error("Unauthorized")).getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -153,7 +156,7 @@ public class SecurityFilter implements Filter {
     }
 
     /**
-     * mode= adfs，处理方式
+     * mode= jwks，处理方式
      *
      * @param httpServletRequest
      * @return
@@ -165,11 +168,7 @@ public class SecurityFilter implements Filter {
             userProfile = UserProfile.ANONYMOUS_OBJ;
         } else {
             Map<String, Object> userMap = jwtUtil.parseAccessToken(token);
-            String uid = (String) userMap.get("upn");
-            String username = (String) userMap.get("unique_name");
-            userProfile = new UserProfile(uid.substring(0, uid.indexOf("@")), false);
-            userProfile.setUserName(username);
-            //根据业务系统补充代码，通过uid 获取其他属性
+            userProfile=jwksEnhanceUserProfile.enhance(userMap);
         }
         return userProfile;
     }
@@ -196,7 +195,7 @@ public class SecurityFilter implements Filter {
             headerMap.put(label, httpServletRequest.getHeader(label));
         }
         try {
-            userProfile = ssoAuthentication.ssoAuth(headerMap, cookieMap);
+            userProfile = paasSSOAuthentication.ssoAuth(headerMap, cookieMap);
         } catch (Throwable ex) {
             ex.printStackTrace();
             userProfile = UserProfile.ANONYMOUS_OBJ;

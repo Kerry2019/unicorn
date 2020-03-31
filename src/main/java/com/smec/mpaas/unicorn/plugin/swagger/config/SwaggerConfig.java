@@ -1,6 +1,5 @@
 package com.smec.mpaas.unicorn.plugin.swagger.config;
 
-import com.smec.mpaas.unicorn.comm.exception.MPaasBusinessException;
 import com.smec.mpaas.unicorn.comm.property.SecurityProperty;
 import com.smec.mpaas.unicorn.plugin.swagger.property.SwaggerProperty;
 import io.swagger.annotations.ApiOperation;
@@ -13,7 +12,6 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
-import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.ResponseMessage;
@@ -45,7 +43,6 @@ public class SwaggerConfig {
     @Bean
     public Docket productApi(){
         List<ResponseMessage> responseMessageList = new ArrayList<>();
-        responseMessageList.add(new ResponseMessageBuilder().code(MPaasBusinessException.STATUS_CODE).message("自定义业务异常").responseModel(new ModelRef("ErrorResponse")).build());
         responseMessageList.add(new ResponseMessageBuilder().code(401).message("没有访问权限").build());
         responseMessageList.add(new ResponseMessageBuilder().code(500).message("服务器内部错误").build());
         Docket docket= new Docket(DocumentationType.SWAGGER_2)

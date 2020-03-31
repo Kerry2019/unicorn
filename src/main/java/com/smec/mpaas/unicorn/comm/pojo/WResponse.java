@@ -2,8 +2,10 @@ package com.smec.mpaas.unicorn.comm.pojo;
 
 import java.io.Serializable;
 
-
-public class Response implements Serializable{
+/**
+ * wrapper response ，统一响应封装类
+ */
+public class WResponse implements Serializable{
     private static final long serialVersionUID = 1L;
 
     public static final String CODE_OK = "ok";
@@ -14,28 +16,28 @@ public class Response implements Serializable{
     private Object data;
 
 
-    public Response(String code, String errorMsg) {
+    public WResponse(String code, String errorMsg) {
         this.code = code;
         this.errorMsg = errorMsg;
     }
 
-    public Response(){
+    public WResponse(){
         this(CODE_OK,null);
     }
 
-    public static Response fail(String errorMsg){
-        return new Response(CODE_ERR, errorMsg);
+    public static WResponse fail(String errorMsg){
+        return new WResponse(CODE_ERR, errorMsg);
     }
-    public static Response ok() {
-        return new Response();
+    public static WResponse ok() {
+        return new WResponse();
     }
 
-    public Response setData(Object data) {
+    public WResponse setData(Object data) {
         this.data = data;
         return this;
     }
 
-    public Response data(Object data) {
+    public WResponse data(Object data) {
         return this.setData(data);
     }
 
