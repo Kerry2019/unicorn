@@ -12,7 +12,7 @@ import java.util.Optional;
 public class SecurityProperty {
     public enum MODE_ENUM {
         simple,
-        adfs,
+        jwks,
         custom
     }
 
@@ -28,7 +28,7 @@ public class SecurityProperty {
     /**
      * simple/jwks/custom
      */
-    @Pattern(regexp = "^simple$|^adfs$|^custom$",message = "请在三者中选择一个值：simple、adfs、custom")
+    @Pattern(regexp = "^simple$|^jwks$|^custom$",message = "请在三者中选择一个值：simple、jwks、custom")
     private String mode=MODE_ENUM.simple.name();
     /**
      * header中参数命名

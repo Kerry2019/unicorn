@@ -84,8 +84,8 @@ public class SecurityFilter implements Filter {
                 case simple:
                     userProfile = simpleHandle(httpServletRequest);
                     break;
-                case adfs:
-                    userProfile = adfseHandle(httpServletRequest);
+                case jwks:
+                    userProfile = jwksHandle(httpServletRequest);
                     break;
                 case custom:
                     userProfile = customHandle(httpServletRequest);
@@ -161,7 +161,7 @@ public class SecurityFilter implements Filter {
      * @param httpServletRequest
      * @return
      */
-    private UserProfile adfseHandle(HttpServletRequest httpServletRequest) throws Exception {
+    private UserProfile jwksHandle(HttpServletRequest httpServletRequest) throws Exception {
         UserProfile userProfile = null;
         String token = httpServletRequest.getHeader(securityProperty.getHeaderName());
         if (token == null) {
