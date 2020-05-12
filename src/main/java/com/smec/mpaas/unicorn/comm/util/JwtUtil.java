@@ -1,6 +1,8 @@
 package com.smec.mpaas.unicorn.comm.util;
 
 import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.jwk.source.DefaultJWKSetCache;
+import com.nimbusds.jose.jwk.source.JWKSetCache;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.jwk.source.RemoteJWKSet;
 import com.nimbusds.jose.proc.JWSKeySelector;
@@ -15,12 +17,16 @@ import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 
 @Component
 public class JwtUtil {
+    JWKSetCache jwkSetCache= new DefaultJWKSetCache(1, TimeUnit.HOURS);
+
     @Autowired
     private SecurityProperty securityProperty;
+
 
     /**
      * 验证并解析 jwt access_token
@@ -32,7 +38,7 @@ public class JwtUtil {
     public  Map<String, Object> parseAccessToken(String accessToken) throws Exception {
         JWTClaimsSet claimsSet = null;
         ConfigurableJWTProcessor jwtProcessor = new DefaultJWTProcessor();
-        JWKSource keySource= new RemoteJWKSet(new URL(securityProperty.getJwksUri()));
+        JWKSource keySource= new RemoteJWKSet(new URL(securityProperty.getJwksUri()),null,jwkSetCache);
         JWSAlgorithm expectedJWSAlg = JWSAlgorithm.RS256;
         JWSKeySelector keySelector = new JWSVerificationKeySelector(expectedJWSAlg, keySource);
         if (keySelector != null) {

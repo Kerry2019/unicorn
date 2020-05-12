@@ -42,7 +42,9 @@ public class SecurityFilter implements Filter {
             "/swagger-ui.html/*",
             "/swagger-resources/*",
             "/webjars/*",
-            "/v2/api-docs/*"
+            "/v2/api-docs/*",
+            "/actuator",
+            "/actuator/*"
     );
 
     @Override

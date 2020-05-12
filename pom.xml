@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.kerrysmec.mpaas</groupId>
     <artifactId>unicorn</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <name>unicorn</name>
     <description>独角兽Starter</description>
 
